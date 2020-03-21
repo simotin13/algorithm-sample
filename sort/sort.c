@@ -4,26 +4,26 @@
 
 #include "sort.h"
 void make_random_ary(int *ary, int len, int disable_duplicate) {
-	int i;
-	int val;
-	int tmp[VAL_MAX];
+    int i;
+    int val;
+    int tmp[VAL_MAX];
 
     for (i = 0; i < VAL_MAX; i++) {
-    	tmp[i] = 0;
+        tmp[i] = 0;
     }
     srand(13);
 
     for (i = 0; i < ARY_SIZE; i++) {
-		val = rand() % VAL_MAX;
-    	if (disable_duplicate == 1) {
-    		while(tmp[val] != 0) {
-    			val = rand() % VAL_MAX;
-    		}
-    		tmp[val] = 1;
-    	}
+        val = rand() % VAL_MAX;
+        if (disable_duplicate == 1) {
+            while(tmp[val] != 0) {
+                val = rand() % VAL_MAX;
+            }
+            tmp[val] = 1;
+        }
         ary[i] = val;
     }
-	return;
+    return;
 }
 
 int binary_search(int *ary, int len, int val) {
@@ -184,15 +184,14 @@ void bucket_sort(int *ary, int len) {
 }
 
 // 分布数え上げソート
-#define COUNT_RANGE	(VAL_MAX+1)
-static int count[COUNT_RANGE];    // 入力の範囲は 0～VAL_MAXまで
-void count_sort(int *ary, int n)
-{
+#define COUNT_RANGE (VAL_MAX+1)
+static int count[COUNT_RANGE];
+void counting_sort(int *ary, int n) {
     int  i;
-    int pos;
+    int val,val_idx;
     int tmp[ARY_SIZE];
 
-    for (i = 0; i <= COUNT_RANGE; i++) {
+    for (i = 0; i <= ARY_SIZE; i++) {
         count[i] = 0;
     }
 
@@ -201,19 +200,23 @@ void count_sort(int *ary, int n)
         tmp[i] = ary[i];
     }
 
+    // 数え上げたキーの累積度数分布
     for (i = 0; i < COUNT_RANGE; i++) {
         count[i+1] += count[i];
     }
 
-    // 最後の要素から順番に見ていく
-    for (i = n - 1; i >= 0; i--) {
-        // 頻度分布から元の配列のインデックスを取得
-        pos = count[ tmp[i] ];
-        count[ tmp[i] ]--;
+	// 累積度の大きい順に値を代入していくため、
+	// 配列の後ろから順番にソートしていかないと、安定ソートにならない
+	// 特にradix
+    for (i = n - 1; 0 <= n; i--) {
+        // ソート対象の値を取得
+        val = tmp[i];
+        // ソート前に累積度数を減らす
+        count[val]--;
 
-        // 元の配列の値を変更
-        ary[ pos ] = tmp[i];
+        // 配列の値に対応する累積度数がソート済みのインデックスになる
+        val_idx = count[val];
+        ary[val_idx] = tmp[i];
     }
-
     return;
 }

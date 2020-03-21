@@ -10,19 +10,19 @@ int main(int argc, char **argv) {
     int ary[ARY_SIZE];
     time_t start,end;
 
-	make_random_ary(ary, ARY_SIZE, 1);
+	make_random_ary(ary, ARY_SIZE, 0);
     fprintf(stdout, "-------- before sort -------\n");
     dump_ary(ary, ARY_SIZE);
     fprintf(stdout, "----------------------------\n\n");
 
     // =========================================================================
-    // ソート実行
+    // execute sort
     // =========================================================================
     start = time(NULL);
-    bucket_sort(ary, ARY_SIZE);
+    counting_sort(ary, ARY_SIZE);
     end = time(NULL);
 
-    fprintf(stdout, "bucket_sort:[%d] sec\n", (int)(end - start));
+    fprintf(stdout, "bucket_sort:[%d] sec\n\n", (int)(end - start));
     fprintf(stdout, "-------- after sort -------\n");
     dump_ary(ary, ARY_SIZE);
     fprintf(stdout, "---------------------------\n\n");
