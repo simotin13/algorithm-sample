@@ -6,20 +6,19 @@
 void make_random_ary(int *ary, int len, int disable_duplicate) {
     int i;
     int val;
-    int tmp[VAL_MAX];
+	int *pAry = malloc(sizeof(int) * VAL_MAX);
 
-    for (i = 0; i < VAL_MAX; i++) {
-        tmp[i] = 0;
-    }
+	memset(pAry, 0, sizeof(int) * VAL_MAX);
+
     srand(13);
 
     for (i = 0; i < ARY_SIZE; i++) {
         val = rand() % VAL_MAX;
         if (disable_duplicate == 1) {
-            while(tmp[val] != 0) {
+            while(pAry[val] != 0) {
                 val = rand() % VAL_MAX;
             }
-            tmp[val] = 1;
+            pAry[val] = 1;
         }
         ary[i] = val;
     }
@@ -219,4 +218,49 @@ void counting_sort(int *ary, int n) {
         ary[val_idx] = tmp[i];
     }
     return;
+}
+
+#define MASK_VAL	(0xFF)
+void radix_sort(int *ary, int len) {
+	int i;
+	int bit;
+	int bits_max = 64;	// 32bitまで対応とする
+	int val;
+	int count[256];
+	int tmp[ARY_SIZE];
+	int pos;
+
+	for(bit = 0; bit < bits_max; bit += 8) {
+		memset(count, 0, sizeof(int) * 256);
+
+		for (i = 0; i < len; i++) {
+			val = (ary[i] >> bit) & MASK_VAL;
+			count[ val ]++;
+			tmp[i] = ary[i];
+		}
+
+		for (i = 0; i < 255; i++) {
+			count[ i + 1 ] += count[i];
+		}
+
+		for (i = len - 1; 0 <= i; i--) {
+			// ソート対象の値を取得
+			// ここの値はフィルタしたキーの値で比較する必要がある
+			val = (tmp[i] >> bit) & MASK_VAL;
+
+			fprintf(stdout, "val:[%d], count[%d]:%d\n", val, val, count[val]);
+			// ソート前に累積値を減らす
+			count[val]--;
+
+			// 累積値から代入先インデックス値を取得
+			pos = count[val];
+			ary[pos] = tmp[i];
+		}
+
+		fprintf(stdout, "ary ");
+		dump_ary(ary, len);
+		fprintf(stdout, "\n");
+	}
+
+	return;
 }

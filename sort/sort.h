@@ -4,8 +4,8 @@
 // =============================================================================
 // define
 // =============================================================================
-#define VAL_MAX     (10)                  // 比較によらないソートによる値の最大
-#define ARY_SIZE    (10)                    // ソート対象の配列サイズ
+#define VAL_MAX     (100)                 // 比較によらないソートによる値の最大
+#define ARY_SIZE    (32)                    // ソート対象の配列サイズ
 
 // =============================================================================
 // util
@@ -27,5 +27,5 @@ extern void bubble_sort(int *ary, int len);
 extern void quick_sort(int *ary, int len);
 extern void bucket_sort(int *ary, int len);
 extern void counting_sort(int *ary, int len);
-
+extern void radix_sort(int *ary, int len);
 #endif

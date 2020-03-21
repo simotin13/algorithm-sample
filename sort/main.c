@@ -6,7 +6,6 @@
 #include "sort.h"
 
 int main(int argc, char **argv) {
-    int i;
     int ary[ARY_SIZE];
     time_t start,end;
 
@@ -19,7 +18,7 @@ int main(int argc, char **argv) {
     // execute sort
     // =========================================================================
     start = time(NULL);
-    counting_sort(ary, ARY_SIZE);
+    radix_sort(ary, ARY_SIZE);
     end = time(NULL);
 
     fprintf(stdout, "bucket_sort:[%d] sec\n\n", (int)(end - start));
