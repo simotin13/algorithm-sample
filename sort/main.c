@@ -10,11 +10,7 @@ int main(int argc, char **argv) {
     int ary[ARY_SIZE];
     time_t start,end;
 
-    srand(100);
-    for (i = 0; i < ARY_SIZE; i++) {
-        ary[i] = rand() % VAL_MAX;
-    }
-
+	make_random_ary(ary, ARY_SIZE, 1);
     fprintf(stdout, "-------- before sort -------\n");
     dump_ary(ary, ARY_SIZE);
     fprintf(stdout, "----------------------------\n\n");

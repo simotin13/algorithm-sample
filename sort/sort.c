@@ -3,6 +3,28 @@
 #include <stdlib.h>
 
 #include "sort.h"
+void make_random_ary(int *ary, int len, int disable_duplicate) {
+	int i;
+	int val;
+	int tmp[VAL_MAX];
+
+    for (i = 0; i < VAL_MAX; i++) {
+    	tmp[i] = 0;
+    }
+    srand(13);
+
+    for (i = 0; i < ARY_SIZE; i++) {
+		val = rand() % VAL_MAX;
+    	if (disable_duplicate == 1) {
+    		while(tmp[val] != 0) {
+    			val = rand() % VAL_MAX;
+    		}
+    		tmp[val] = 1;
+    	}
+        ary[i] = val;
+    }
+	return;
+}
 
 int binary_search(int *ary, int len, int val) {
     int pos;
